@@ -4,7 +4,7 @@ from Config import *
 """
 Created on Mon Jan 30 19:45:50 2023
 
-@author: samy_
+@author: xhackax47
 """
 
 programme()
