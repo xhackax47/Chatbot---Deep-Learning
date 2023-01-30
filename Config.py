@@ -40,11 +40,7 @@ def programme():
     print("INITIALISATION ET DEMARRAGE DU PROGRAMME DE CHATBOT PAR DEEP LEARNING")
     time.sleep(5)
     separationDonnees(mots, classes)
-    #afficherDigitsImage()
-    #afficherGraphImage()
-    #afficherDigitsImage()
-    #entrainement1000img(digitsTab1D_train, digitsTarget_train, mlp)
-    #evalPerf(digitsTab1D_test, digitsTarget_test, mlp)
+    affichageDonnées(mots, classes)
     print("FIN DU PROGRAMME")
     
 def separationDonnees(mots, classes):
@@ -71,6 +67,8 @@ def separationDonnees(mots, classes):
     # set pour s'assurer qu'il n'y a pas de doublons
     mots = sorted(set(mots))
     classes = sorted(set(classes))
+
+def affichageDonnées(mots, classes):
     print("Affichage des données : ")
     time.sleep(3)
     print("Mots : " + str(mots))
