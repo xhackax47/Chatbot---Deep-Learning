@@ -4,11 +4,12 @@ Ce projet me sert à expérimenter le machine learning à travers du Dataset de 
 
 ## Environnement
 
-Nous aurons besoin de Python dernière version, l'IDE Spyder et Anaconda3 pour mettre tout en place.
+Nous aurons besoin de Python dernière version, l'IDE Spyder, Anaconda3 et Tensorflow avec Keras pour mettre tout en place.
 
 - [Python](https://www.python.org/downloads/)
 - [Spyder IDE](https://www.spyder-ide.org/)
 - [Anaconda3](https://www.anaconda.com/)
+- [Tensorflow](https://anaconda.org/conda-forge/tensorflow)
 
 ## Dépendances
 
