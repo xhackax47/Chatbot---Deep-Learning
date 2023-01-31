@@ -9,7 +9,7 @@ import time
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout
-from Intents import *
+from Intentions import dictionnaire
 
 # -*- coding: utf-8 -*-
 """
@@ -63,7 +63,7 @@ def separationDonnees(mots, classes):
     # parcourir avec une boucle For toutes les intentions
     # tokéniser chaque pattern et ajouter les tokens à la liste words, les patterns et
     # le tag associé à l'intention sont ajoutés aux listes correspondantes
-    for intent in data["intents"]:
+    for intent in dictionnaire["intentions"]:
         for pattern in intent["patterns"]:
             tokens = nltk.word_tokenize(pattern)
             mots.extend(tokens)
