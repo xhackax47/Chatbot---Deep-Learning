@@ -40,7 +40,7 @@ entrainement_y = []
 # Modèle Deep Learning
 model = Sequential()
 shapes = []
-
+epochs = 200
 # Fonctions
 
 
@@ -50,8 +50,8 @@ def programme():
     time.sleep(5)
     separationDonnees(mots, classes)
     shapes = traitementDonnees(entrainement, entrainement_x, entrainement_y)
-    creationModelChatbot(model, entrainement_x,
-                         entrainement_y, shapes[0], shapes[1])
+    creationModelChatbot(model, entrainement_x, entrainement_y, shapes[0], shapes[1])
+    entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs)
     print("FIN DU PROGRAMME")
 
 
@@ -59,7 +59,7 @@ def separationDonnees(mots, classes):
     """Séparation des données et remplissage des listes (mots et classes) à partir des données des intentions"""
     print("La séparation des données va bientôt commencer..")
     time.sleep(2)
-
+    
     # parcourir avec une boucle For toutes les intentions
     # tokéniser chaque pattern et ajouter les tokens à la liste words, les patterns et
     # le tag associé à l'intention sont ajoutés aux listes correspondantes
@@ -94,7 +94,7 @@ def traitementDonnees(entrainement, entrainement_x, entrainement_y):
     """Traitement des données séparées avec création des listes pour l'entraînement et conversion en valeurs numériques"""
     print("Le traitement des données va bientôt commencer..")
     time.sleep(2)
-
+    
     sortie_vide = [0] * len(classes)
     # Création du modèle d'ensemble de mots
     for idx, doc in enumerate(doc_X):
@@ -126,7 +126,6 @@ def traitementDonnees(entrainement, entrainement_x, entrainement_y):
     time.sleep(3)
     return shapes
 
-
 def creationModelChatbot(model, entrainement_x, entrainement_y, input_shape, output_shape):
     """Création et définition du modèle de Deep Learning"""
     print("La création du modèle Deep Learning va bientôt commencer..")
@@ -145,11 +144,14 @@ def creationModelChatbot(model, entrainement_x, entrainement_y, input_shape, out
     print("creationModelChatbot OK !!!")
     print("Affichage le sommaire du modèle Deep Learning : ")
     print(model.summary())
+    time.sleep(3)
+
+def entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs):
     """Entraînement du modèle de Deep Learning"""
     print("L'entraînement du modèle Deep Learning va bientôt commencer..")
     time.sleep(2)
 
     # Entrainement du modèle
-    model.fit(x=entrainement_x, y=entrainement_y, epochs=200, verbose=1)
+    model.fit(x=entrainement_x, y=entrainement_y, epochs=epochs, verbose=1)
     print("entrainementModelChatbot OK !!!")
     time.sleep(3)
