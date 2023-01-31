@@ -152,6 +152,10 @@ def entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs):
     time.sleep(2)
 
     # Entrainement du modèle
-    model.fit(x=entrainement_x, y=entrainement_y, epochs=epochs, verbose=1)
-    print("entrainementModelChatbot OK !!!")
-    time.sleep(3)
+    try:
+        model.fit(x=entrainement_x, y=entrainement_y, epochs=epochs, verbose=1)
+        print("entrainementModelChatbot OK !!!")
+        time.sleep(3)
+    except KeyError:
+        print("Problème de clé dans les modèles d'entraînement ('pop from an empty set' = .pop à partir d'un ensemble vide)")
+        print("Fichier à problème :   File ~\.conda\envs\spyder-env\lib\site-packages\keras\engine\data_adapter.py:261 in '__init__).pop()'")
