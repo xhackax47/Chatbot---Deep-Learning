@@ -33,3 +33,7 @@ conda install nomdumoduleainstaller
 - Votre nouvel environnement ne sera listé ici que si vous avez installé Miniconda (ou Anaconda) dans le chemin par défaut comme indiqué dans le tableau ci-dessus.
 
 - Cliquez sur Restart kernel dans le menu Consoles pour que ce changement prenne effet.
+
+## Notebook
+
+[Notebook](https://colab.research.google.com/drive/1DqlgJENz77osTfH9LMPJr2TCVZEHdE1P)
