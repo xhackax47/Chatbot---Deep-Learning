@@ -2,7 +2,7 @@
 
 Ce projet me sert à expérimenter le deep learning à travers un modèle Sequential et le package Natural Language ToolKit.
 
- ![Example de fonctionnement de l'IA](https://ibb.co/xzTDrcG)
+ ![Example de fonctionnement de l'IA](https://i.ibb.co/ZcDVbwK/Capture-d-cran-2023-02-04-153425.png)
 
 ## Environnement
 
