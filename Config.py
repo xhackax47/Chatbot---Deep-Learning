@@ -41,6 +41,8 @@ entrainement_y = []
 model = Sequential()
 shapes = []
 epochs = 200
+
+
 # Fonctions
 
 

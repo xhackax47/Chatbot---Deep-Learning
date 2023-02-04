@@ -14,6 +14,7 @@ def main():
     entrainementIA()
     chatbot()
     print("FIN DU PROGRAMME")
-    
+
+
 # Execution de la fonction principale du programmeTe
 main()
