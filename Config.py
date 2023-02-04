@@ -165,7 +165,7 @@ def bag_of_words(text, vocab):
     return np.array(bow)
 
 
-def pred_class(text, vocab, labels, IA):
+def predictionClasse(text, vocab, labels, IA):
     bow = bag_of_words(text, vocab)
     result = IA.predict(np.array([bow]))[0]
     thresh = 0.2
@@ -177,7 +177,7 @@ def pred_class(text, vocab, labels, IA):
     return return_list
 
 
-def get_response(intents_list, intents_json):
+def reponses(intents_list, intents_json):
     tag = intents_list[0]
     list_of_intents = intents_json["intentions"]
     for i in list_of_intents:
@@ -199,6 +199,6 @@ def chatbot(IA):
     while True:
         print("Ecrivez un message et attendez la réponse de l'IA : ")
         message = input("")
-        intents = pred_class(message, mots, classes, IA)
-        result = get_response(intents, dictionnaire)
-        print("Kardrid : " + result)
+        intents = predictionClasse(message, mots, classes, IA)
+        resultat = reponses(intents, dictionnaire)
+        print("Kardrid : " + resultat)
