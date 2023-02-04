@@ -44,22 +44,20 @@ epochs = 200
 # Fonctions
 
 
-def programme():
-    """Programme principal"""
-    print("INITIALISATION ET DEMARRAGE DU PROGRAMME DE CHATBOT PAR DEEP LEARNING")
-    time.sleep(5)
+def entrainementIA():
+    """Programme d'entrainement du modèle"""
     separationDonnees(mots, classes)
     shapes = traitementDonnees(entrainement, entrainement_x, entrainement_y)
-    creationModelChatbot(model, entrainement_x, entrainement_y, shapes[0], shapes[1])
+    creationModelChatbot(model, entrainement_x,
+                         entrainement_y, shapes[0], shapes[1])
     entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs)
-    print("FIN DU PROGRAMME")
 
 
 def separationDonnees(mots, classes):
     """Séparation des données et remplissage des listes (mots et classes) à partir des données des intentions"""
     print("La séparation des données va bientôt commencer..")
     time.sleep(2)
-    
+
     # parcourir avec une boucle For toutes les intentions
     # tokéniser chaque pattern et ajouter les tokens à la liste words, les patterns et
     # le tag associé à l'intention sont ajoutés aux listes correspondantes
@@ -94,7 +92,7 @@ def traitementDonnees(entrainement, entrainement_x, entrainement_y):
     """Traitement des données séparées avec création des listes pour l'entraînement et conversion en valeurs numériques"""
     print("Le traitement des données va bientôt commencer..")
     time.sleep(2)
-    
+
     sortie_vide = [0] * len(classes)
     # Création du modèle d'ensemble de mots
     for idx, doc in enumerate(doc_X):
@@ -126,6 +124,7 @@ def traitementDonnees(entrainement, entrainement_x, entrainement_y):
     time.sleep(3)
     return shapes
 
+
 def creationModelChatbot(model, entrainement_x, entrainement_y, input_shape, output_shape):
     """Création et définition du modèle de Deep Learning"""
     print("La création du modèle Deep Learning va bientôt commencer..")
@@ -146,6 +145,7 @@ def creationModelChatbot(model, entrainement_x, entrainement_y, input_shape, out
     print(model.summary())
     time.sleep(3)
 
+
 def entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs):
     """Entraînement du modèle de Deep Learning"""
     print("L'entraînement du modèle Deep Learning va bientôt commencer..")
@@ -159,3 +159,54 @@ def entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs):
     except KeyError:
         print("Problème de clé dans les modèles d'entraînement ('pop from an empty set' = .pop à partir d'un ensemble vide)")
         print("Fichier à problème :   File ~\.conda\envs\spyder-env\lib\site-packages\keras\engine\data_adapter.py:261 in '__init__).pop()'")
+
+
+def clean_text(text):
+    tokens = nltk.word_tokenize(text)
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+    return tokens
+
+
+def bag_of_words(text, vocab):
+    tokens = clean_text(text)
+    bow = [0] * len(vocab)
+    for w in tokens:
+        for idx, word in enumerate(vocab):
+            if word == w:
+                bow[idx] = 1
+    return np.array(bow)
+
+
+def pred_class(text, vocab, labels):
+    bow = bag_of_words(text, vocab)
+    result = model.predict(np.array([bow]))[0]
+    thresh = 0.2
+    y_pred = [[idx, res] for idx, res in enumerate(result) if res > thresh]
+    y_pred.sort(key=lambda x: x[1], reverse=True)
+    return_list = []
+    for r in y_pred:
+        return_list.append(labels[r[0]])
+    return return_list
+
+
+def get_response(intents_list, intents_json):
+    tag = intents_list[0]
+    list_of_intents = intents_json["intentions"]
+    for i in list_of_intents:
+        if i["tag"] == tag:
+            result = random.choice(i["responses"])
+            break
+    return result
+
+
+def chatbot():
+    """Programme principal"""
+    print("INITIALISATION ET DEMARRAGE DU PROGRAMME DE CHATBOT PAR DEEP LEARNING")
+    # lancement du chatbot
+    time.sleep(5)
+    while True:
+        print("Ecrivez un message et attendez la réponse de l'IA : ")
+        message = input("")
+        intents = pred_class(message, mots, classes)
+        result = get_response(intents, dictionnaire)
+        print("Kardrid : " + result)

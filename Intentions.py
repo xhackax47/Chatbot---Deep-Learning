@@ -22,7 +22,7 @@ dictionnaire = {"intentions": [
      },
     {"tag": "name",
      "patterns": ["Quel est ton prénom?", "Comment tu t'appelles?", "Qui es-tu?"],
-     "responses": ["Mon prénom est Miki", "Je suis Miki", "Miki"]
+     "responses": ["Mon prénom est Kardrid", "Je suis Kardrid", "Kardrid"]
      },
     {"tag": "goodbye",
      "patterns": ["bye", "Salut", "see ya", "adios", "cya"],
