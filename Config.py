@@ -1,4 +1,3 @@
-import json
 import nltk
 import numpy as np
 import random
@@ -35,25 +34,50 @@ doc_X = []
 doc_y = []
 # Listes pour les données d'entraînement
 entrainement = []
-entrainement_x = []
-entrainement_y = []
-# Modèle Deep Learning
-model = Sequential()
-shapes = []
-epochs = 200
 
 
 # Fonctions
 
 
-def entrainementIA():
+def entrainementIA(entrainement):
     """Programme d'entrainement du modèle"""
     separationDonnees(mots, classes)
-    shapes = traitementDonnees(entrainement, entrainement_x, entrainement_y)
-    creationModelChatbot(model, entrainement_x,
-                         entrainement_y, shapes[0], shapes[1])
-    entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs)
+    print("Le traitement des données va bientôt commencer..")
+    time.sleep(2)
 
+    sortie_vide = [0] * len(classes)
+    # Création du modèle d'ensemble de mots
+    for idx, doc in enumerate(doc_X):
+        bow = []
+        texte = lemmatizer.lemmatize(doc.lower())
+        for mot in mots:
+            bow.append(1) if mot in texte else bow.append(0)
+        # Marque l'index de la classe à laquelle le pattern atguel est associé à
+        ligne_sortie = list(sortie_vide)
+        ligne_sortie[classes.index(doc_y[idx])] = 1
+        # Ajoute le one hot encoded BoW et les classes associées à la liste training
+        entrainement.append([bow, ligne_sortie])
+    # Mélanger les données et les convertir en array
+    random.shuffle(entrainement)
+    entrainement = np.array(entrainement, dtype=object)
+    # Séparer les features et les labels target
+    entrainement_x = np.array(list(entrainement[:, 0]))
+    entrainement_y = np.array(list(entrainement[:, 1]))
+    # Définition des paramètres
+    input_shape = (len(entrainement_x[0]),)
+    output_shape = len(entrainement_y[0])
+    shapes = [input_shape, output_shape]
+
+    print("traitementDonnees OK !!!")
+    print("Affichage des données au format numérique : ")
+    print("entrainement_x : " + str(entrainement_x))
+    print("entrainement_y : " + str(entrainement_y))
+    print("shapes : " + str(shapes))
+    time.sleep(3)    
+    IA = creationModelChatbot(entrainement_x,
+                                 entrainement_y, shapes[0], shapes[1])
+    entrainementIAChatbot(IA, entrainement_x, entrainement_y)
+    return IA
 
 def separationDonnees(mots, classes):
     """Séparation des données et remplissage des listes (mots et classes) à partir des données des intentions"""
@@ -90,77 +114,39 @@ def separationDonnees(mots, classes):
     time.sleep(3)
 
 
-def traitementDonnees(entrainement, entrainement_x, entrainement_y):
-    """Traitement des données séparées avec création des listes pour l'entraînement et conversion en valeurs numériques"""
-    print("Le traitement des données va bientôt commencer..")
-    time.sleep(2)
-
-    sortie_vide = [0] * len(classes)
-    # Création du modèle d'ensemble de mots
-    for idx, doc in enumerate(doc_X):
-        bow = []
-        texte = lemmatizer.lemmatize(doc.lower())
-        for mot in mots:
-            bow.append(1) if mot in texte else bow.append(0)
-        # Marque l'index de la classe à laquelle le pattern atguel est associé à
-        ligne_sortie = list(sortie_vide)
-        ligne_sortie[classes.index(doc_y[idx])] = 1
-        # Ajoute le one hot encoded BoW et les classes associées à la liste training
-        entrainement.append([bow, ligne_sortie])
-    # Mélanger les données et les convertir en array
-    random.shuffle(entrainement)
-    entrainement = np.array(entrainement, dtype=object)
-    # Séparer les features et les labels target
-    entrainement_x = np.array(list(entrainement[:, 0]))
-    entrainement_y = np.array(list(entrainement[:, 1]))
-    # Définition des paramètres
-    input_shape = (len(entrainement_x[0]),)
-    output_shape = len(entrainement_y[0])
-    shapes = [input_shape, output_shape]
-
-    print("traitementDonnees OK !!!")
-    print("Affichage des données au format numérique : ")
-    print("entrainement_x : " + str(entrainement_x))
-    print("entrainement_y : " + str(entrainement_y))
-    print("shapes : " + str(shapes))
-    time.sleep(3)
-    return shapes
-
-
-def creationModelChatbot(model, entrainement_x, entrainement_y, input_shape, output_shape):
+def creationModelChatbot(entrainement_x, entrainement_y, input_shape, output_shape):
     """Création et définition du modèle de Deep Learning"""
     print("La création du modèle Deep Learning va bientôt commencer..")
     time.sleep(2)
-
-    #epochs = 200
     # Définition du modèle Deep Learning
-    model.add(Dense(128, input_shape=input_shape, activation="relu"))
-    model.add(Dropout(0.5))
-    model.add(Dense(64, activation="relu"))
-    model.add(Dropout(0.3))
-    model.add(Dense(output_shape, activation="softmax"))
+    IA = Sequential()
+    IA.add(Dense(128, input_shape=input_shape, activation="relu"))
+    IA.add(Dropout(0.5))
+    IA.add(Dense(64, activation="relu"))
+    IA.add(Dropout(0.3))
+    IA.add(Dense(output_shape, activation="softmax"))
     adam = tf.keras.optimizers.Adam(learning_rate=0.01, decay=1e-6)
-    model.compile(loss='categorical_crossentropy',
+    IA.compile(loss='categorical_crossentropy',
                   optimizer=adam, metrics=["accuracy"])
     print("creationModelChatbot OK !!!")
     print("Affichage le sommaire du modèle Deep Learning : ")
-    print(model.summary())
+    print(IA.summary())
     time.sleep(3)
+    return IA
 
 
-def entrainementModelChatbot(model, entrainement_x, entrainement_y, epochs):
+def entrainementIAChatbot(IA, entrainement_x, entrainement_y):
     """Entraînement du modèle de Deep Learning"""
     print("L'entraînement du modèle Deep Learning va bientôt commencer..")
     time.sleep(2)
+    time.sleep(2)
 
     # Entrainement du modèle
-    try:
-        model.fit(x=entrainement_x, y=entrainement_y, epochs=epochs, verbose=1)
-        print("entrainementModelChatbot OK !!!")
-        time.sleep(3)
-    except KeyError:
-        print("Problème de clé dans les modèles d'entraînement ('pop from an empty set' = .pop à partir d'un ensemble vide)")
-        print("Fichier à problème :   File ~\.conda\envs\spyder-env\lib\site-packages\keras\engine\data_adapter.py:261 in '__init__).pop()'")
+    IA.fit(x=entrainement_x, y=entrainement_y, epochs=200, verbose=1, use_multiprocessing=True)
+    # Evaluation du modèle
+    IA.evaluate(x=entrainement_x, y=entrainement_y, verbose=1, use_multiprocessing=True, return_dict=True,)
+    print("entrainementIAChatbot OK !!!")
+    time.sleep(3)
 
 
 def clean_text(text):
@@ -179,9 +165,9 @@ def bag_of_words(text, vocab):
     return np.array(bow)
 
 
-def pred_class(text, vocab, labels):
+def pred_class(text, vocab, labels, IA):
     bow = bag_of_words(text, vocab)
-    result = model.predict(np.array([bow]))[0]
+    result = IA.predict(np.array([bow]))[0]
     thresh = 0.2
     y_pred = [[idx, res] for idx, res in enumerate(result) if res > thresh]
     y_pred.sort(key=lambda x: x[1], reverse=True)
@@ -201,14 +187,18 @@ def get_response(intents_list, intents_json):
     return result
 
 
-def chatbot():
+def chatbot(IA):
     """Programme principal"""
     print("INITIALISATION ET DEMARRAGE DU PROGRAMME DE CHATBOT PAR DEEP LEARNING")
     # lancement du chatbot
+    print("Affichage des questions tests : ")
+    for intent in dictionnaire["intentions"]:
+        for pattern in intent["patterns"]:
+            print(pattern)
     time.sleep(5)
     while True:
         print("Ecrivez un message et attendez la réponse de l'IA : ")
         message = input("")
-        intents = pred_class(message, mots, classes)
+        intents = pred_class(message, mots, classes, IA)
         result = get_response(intents, dictionnaire)
         print("Kardrid : " + result)

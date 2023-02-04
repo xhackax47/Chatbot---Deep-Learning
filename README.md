@@ -2,6 +2,8 @@
 
 Ce projet me sert à expérimenter le deep learning à travers un modèle Sequential et le package Natural Language ToolKit.
 
+ ![Example de fonctionnement de l'IA](https://ibb.co/xzTDrcG)
+
 ## Environnement
 
 Nous aurons besoin de Python dernière version, l'IDE Spyder, Anaconda3 et Tensorflow avec Keras pour mettre tout en place.

@@ -8,13 +8,13 @@ Created on Mon Jan 30 19:45:50 2023
 """
 
 # Fonction principale du programme
-def main():
+def principal():
     print("INITIALISATION ET DEMARRAGE DU PROGRAMME D'ENTRAINEMENT DU MODELE DEEP LEARNING")
     time.sleep(5)
-    entrainementIA()
-    chatbot()
+    IA = entrainementIA(entrainement)
+    chatbot(IA)
     print("FIN DU PROGRAMME")
 
 
 # Execution de la fonction principale du programmeTe
-main()
+principal()
