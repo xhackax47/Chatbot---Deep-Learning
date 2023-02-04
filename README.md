@@ -1,6 +1,6 @@
 # Chatbot - Deep Learning
 
-Ce projet me sert à expérimenter le machine learning à travers du Dataset de boardgamegeek.com.
+Ce projet me sert à expérimenter le deep learning à travers un modèle Sequential et le package Natural Language ToolKit.
 
 ## Environnement
 
